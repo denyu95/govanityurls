@@ -40,7 +40,12 @@ func init() {
 }
 
 func handle(w http.ResponseWriter, r *http.Request) {
-	current := r.URL.Path
+	urlList := strings.Split(r.URL.Path, "/")
+	if len(urlList) < 2 {
+		http.NotFound(w, r)
+		return
+	}
+	current := urlList[0] + "/" + urlList[1]
 	p, ok := m[current]
 	if !ok {
 		http.NotFound(w, r)
